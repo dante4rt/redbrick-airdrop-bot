@@ -1,0 +1,2 @@
+# redbrick-airdrop-bot
+Yeah.
