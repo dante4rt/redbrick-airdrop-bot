@@ -8,6 +8,7 @@ const {
   clearOnboardingTask,
   completeFinalOnboardingTask,
 } = require('./api');
+const moment = require('moment');
 
 async function performDailyLogin(config) {
   try {
@@ -100,26 +101,35 @@ async function performCompleteTasks(config) {
 }
 
 async function automaticMode(config) {
-  console.log('Starting automatic mode...'.yellow);
-  await performDailyLogin(config);
-  await performLevelUp(config);
-  await performCompleteTasks(config);
+  console.log('\nStarting automatic mode...'.yellow);
 
-  const job = new CronJob('0 0 * * *', async () => {
-    console.log('Executing automatic tasks...'.yellow);
-    await performDailyLogin(config);
-    await performLevelUp(config);
-    await performCompleteTasks(config);
+  await performTasks(config);
+
+  const job = new CronJob('0 */12 * * *', async () => {
+    const currentTime = moment().format('YYYY-MM-DD HH:mm:ss');
+    console.log(`Executing automatic tasks at ${currentTime}...`.yellow);
+    await performTasks(config);
   });
 
   job.start();
-  console.log(
-    'Automatic mode is active. Tasks will run daily at midnight.'.green
-  );
+
+  const nextRunTime = moment(job.nextDates()).format('YYYY-MM-DD HH:mm:ss');
+  console.log(`Automatic mode is active. Next run at: ${nextRunTime}`.green);
   console.log(
     "📢 While waiting, don't forget to subscribe to https://t.me/HappyCuanAirdrop for the latest and best airdrops and bots!\n"
       .cyan
   );
+}
+
+async function performTasks(config) {
+  try {
+    await performDailyLogin(config);
+    await performLevelUp(config);
+    await performCompleteTasks(config);
+    console.log('All tasks completed successfully.\n'.green);
+  } catch (error) {
+    console.error('Error performing tasks:', error);
+  }
 }
 
 module.exports = {
