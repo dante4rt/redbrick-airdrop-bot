@@ -1,13 +1,22 @@
 {
   "name": "redbrick-airdrop-bot",
   "version": "1.0.0",
-  "description": "Yeah.",
+  "description": "An automated bot for Redbrick Panda Adventure airdrop tasks, including daily check-ins, level upgrades, and task completions.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js"
   },
-  "keywords": [],
+  "keywords": [
+    "redbrick",
+    "airdrop",
+    "bot",
+    "crypto",
+    "automation",
+    "panda-adventure",
+    "blockchain",
+    "gaming"
+  ],
   "author": "dante4rt",
   "license": "MIT",
   "dependencies": {
